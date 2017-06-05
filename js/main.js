@@ -29,25 +29,33 @@ var album = {
 	photo: function(fileName, location){
 		this.fileName = fileName;
 		this.location = location;
+		this.getFilePath = function () {
+			return this.location + "/" + this.fileName;
+		};
 	},
 	photos: [],
 	size: 0,
 	addNewPhoto: function (fileName, location) {
 		var p = new this.photo(fileName,location);
 		this.photos.push(p);
+		this.size++;
 	},
 	listPhotos: function () {
-		for(i = 0; i<this.size; i++){
-			console.log(this.photos[i].fileName +", " + this.photos[i].location);
+		for(i = 0; i<this.photos.length; i++){
+			console.log(this.photos[i].fileName);
 		}
+	},
+	getAllPhotosInHTML: function () {
+		var str = "";
+		for(i = 0; i<album.size; i++){
+			str += "<img src='"+album.getPhoto(i).getFilePath()+"'>";
+		}
+		return str;
 	},
 	getPhoto: function (photo) {
 		return this.photos[photo];
 	}
 };
-album.addNewPhoto("img/file", "location");
-album.listPhotos();
-album.getPhoto(0);
 
 // Problem 3
 var library = {
@@ -86,11 +94,11 @@ library.removeBook("Way of Kings");
 console.log(library.count());
 
 // Problem 4
-var Person = function() {
-	this.name = "";
-	this.age = 0;
-	this.height = "";
-	this.sex = "";
+var Person = function(name, age, height, sex) {
+	this.name = name;
+	this.age = age;
+	this.height = height;
+	this.sex = sex;
 };
 Person.prototype = {
 	getName: function () {
@@ -116,32 +124,22 @@ Person.prototype = {
 	},
 	setSex: function (sex) {
 		this.sex = sex;
-	},
-	define: function (name,age,height,sex) {
-		this.setName(name);
-		this.setAge(age);
-		this.setHeight(height);
-		this.setSex(sex);
 	}
 };
 
 var Teacher = function (name,age,height,sex,subject, grade) {
-	this.define(name,age,height,sex);
+	Person.call(this,name,age,height,sex);
 	this.grade = grade;
 	this.subject = subject;
 };
-Teacher.prototype = new Person();
-Teacher.prototype.constructor = Teacher;
 
 var Student = function (name,age,height,sex,grade) {
-	this.define(name,age,height,sex);
+	Person.call(this,name,age,height,sex);
 	this.grade = grade;
 };
-Student.prototype = new Person();
-Student.prototype.constructor = Teacher;
 
 var School = {
-	name: "Corner Canyon",
+	name: "Hillcrest High School",
 	Teachers: [],
 	Students: [],
 	hireTeachers: function () {
@@ -161,3 +159,22 @@ var john = new Student("John", 16, "5'8\"", "Male", 10);
 
 School.hireTeachers(smith);
 School.enrollStudents(john);
+
+// Extra
+function $(element) {
+	return document.getElementById(element);
+}
+
+album.addNewPhoto("img (1).jpg", "img");
+album.addNewPhoto("img (2).jpg", "img");
+album.addNewPhoto("img (3).jpg", "img");
+album.addNewPhoto("img (4).jpg", "img");
+album.addNewPhoto("img (5).jpg", "img");
+album.addNewPhoto("img (6).jpg", "img");
+album.addNewPhoto("img (7).jpg", "img");
+album.addNewPhoto("img (8).jpg", "img");
+album.addNewPhoto("img (9).jpg", "img");
+album.listPhotos();
+for(i = 0; i<album.size; i++){
+	$('gallery').innerHTML = album.getAllPhotosInHTML();
+}
