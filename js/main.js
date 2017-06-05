@@ -5,15 +5,24 @@
 var Multiplier = function (number) {
 	this.currentValue = 1;
 	this.multiply = function () {
-		this.currentValue *= this.currentValue;
-		return this.currentValue;
+		this.currentValue *= number;
+		return this.getCurrentValue();
 	};
 	this.getCurrentValue = function () {
 		return this.currentValue;
 	};
 };
-Multiplier.multiply(5);
-console.log(Multiplier.getCurrentValue());
+var multi = new Multiplier(5);
+multi.multiply();
+console.log(multi.getCurrentValue());
+multi.multiply();
+console.log(multi.getCurrentValue());
+multi.multiply();
+console.log(multi.getCurrentValue());
+multi.multiply();
+console.log(multi.getCurrentValue());
+multi.multiply();
+console.log(multi.getCurrentValue());
 
 // Problem 2
 var album = {
@@ -66,13 +75,15 @@ var library = {
 		}
 	},
 	count: function () {
-		return this.books.length;
+		return "Books: "+this.books.length;
 	}
 };
+console.log(library.count());
 library.addBook("Way of Kings", "Brandon Sanderson", "Fantasy");
 library.getBook("Way of Kings");
+console.log(library.count());
 library.removeBook("Way of Kings");
-library.count();
+console.log(library.count());
 
 // Problem 4
 var Person = function() {
