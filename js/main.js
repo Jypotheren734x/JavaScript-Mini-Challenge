@@ -6,7 +6,6 @@ var Multiplier = function (number) {
 	this.currentValue = 1;
 	this.multiply = function () {
 		this.currentValue *= number;
-		return this.getCurrentValue();
 	};
 	this.getCurrentValue = function () {
 		return this.currentValue;
@@ -25,18 +24,16 @@ multi.multiply();
 console.log(multi.getCurrentValue());
 
 // Problem 2
+
+function photo(fileName, location){
+	this.fileName = fileName;
+	this.location = location;
+}
 var album = {
-	photo: function(fileName, location){
-		this.fileName = fileName;
-		this.location = location;
-		this.getFilePath = function () {
-			return this.location + "/" + this.fileName;
-		};
-	},
 	photos: [],
 	size: 0,
 	addNewPhoto: function (fileName, location) {
-		var p = new this.photo(fileName,location);
+		var p = new photo(fileName,location);
 		this.photos.push(p);
 		this.size++;
 	},
@@ -48,7 +45,7 @@ var album = {
 	getAllPhotosInHTML: function () {
 		var str = "";
 		for(i = 0; i<album.size; i++){
-			str += "<img src='"+album.getPhoto(i).getFilePath()+"'>";
+			str += "<img src='"+album.getPhoto(i).fileName+"'>";
 		}
 		return str;
 	},
@@ -151,6 +148,17 @@ var School = {
 		for(i = 0; i<arguments.length; i++){
 			this.Students.push(arguments[i]);
 		}
+	},
+	addToSchool: function () {
+		for(i = 0; i<arguments.length; i++){
+			var person = arguments[i];
+			if(person instanceof Teacher){
+				this.Teachers.push(person);
+			}
+			if(person instanceof Student){
+				this.Students.push(person);
+			}
+		}
 	}
 };
 
@@ -158,22 +166,24 @@ var smith = new Teacher("Mr.Smith",45,"6'4\"", "Male", "Math", 10);
 var john = new Student("John", 16, "5'8\"", "Male", 10);
 
 School.hireTeachers(smith);
-School.enrollStudents(john);
+School.enrollStudents(john)
+School.addToSchool(smith, john);
+console.log(School.Teachers, School.Students);
 
 // Extra
 function $(element) {
 	return document.getElementById(element);
 }
 
-album.addNewPhoto("img (1).jpg", "img");
-album.addNewPhoto("img (2).jpg", "img");
-album.addNewPhoto("img (3).jpg", "img");
-album.addNewPhoto("img (4).jpg", "img");
-album.addNewPhoto("img (5).jpg", "img");
-album.addNewPhoto("img (6).jpg", "img");
-album.addNewPhoto("img (7).jpg", "img");
-album.addNewPhoto("img (8).jpg", "img");
-album.addNewPhoto("img (9).jpg", "img");
+album.addNewPhoto("img/img (1).jpg", "Utah");
+album.addNewPhoto("img/img (2).jpg", "Utah");
+album.addNewPhoto("img/img (3).jpg", "Utah");
+album.addNewPhoto("img/img (4).jpg", "Utah");
+album.addNewPhoto("img/img (5).jpg", "Utah");
+album.addNewPhoto("img/img (6).jpg", "Utah");
+album.addNewPhoto("img/img (7).jpg", "Utah");
+album.addNewPhoto("img/img (8).jpg", "Utah");
+album.addNewPhoto("img/img (9).jpg", "Utah");
 album.listPhotos();
 for(i = 0; i<album.size; i++){
 	$('gallery').innerHTML = album.getAllPhotosInHTML();
